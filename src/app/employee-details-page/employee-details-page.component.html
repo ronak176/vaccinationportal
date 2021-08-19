@@ -1,0 +1,301 @@
+<div class="grid-container">
+  <h1 class="mat-h1">Employee Details</h1>
+  <mat-grid-list cols="{{ (cardLayout | async)?.columns }}" rowHeight="200px">
+    <mat-grid-tile [colspan]="(cardLayout | async)?.table.cols" [rowspan]="(cardLayout | async)?.table.rows">
+      <app-card>
+        <div>
+          <div class="container" fxLayout = "column" fxLayoutAlign = "center center">
+            <img src="../../../assets/employee.jpg" alt="" class="profile-image" />
+            <div class="profile-name">{{employee?.name}}</div>
+            <div class="profile-role"><span>Role :</span> {{employee?.role}}</div>
+            <div class="profile-department"><span>Department :</span> {{employee?.department}}</div>
+          </div>
+        </div>
+      </app-card>
+    </mat-grid-tile>
+
+    <mat-grid-tile [colspan]="(cardLayout | async)?.chart.cols" [rowspan]="(cardLayout | async)?.chart.rows">
+      <mat-card class="dashboard-card">
+        <!-- <mat-toolbar class="edit-details-bar">
+          <span>Details</span>
+        </mat-toolbar> -->
+        <mat-card-content class="dashboard-card-content">
+
+          <mat-tab-group mat-align-tabs="center">
+            <mat-tab>
+              <ng-template mat-tab-label>
+                <div
+                  fxLayout="row"
+                  fxLayoutGap="3px"
+                  fxLayoutAlign="center center"
+                >
+                  <div>
+                    <mat-icon>person</mat-icon>
+                  </div>
+                  <div>General</div>
+                </div>
+              </ng-template>
+              <mat-list>
+                <mat-list-item
+                  ><p>
+                    <br />
+                    <br>
+                    <b>Employee ID : </b> {{ employee?.empid }} <br />
+                    <br></p
+                ></mat-list-item>
+                <mat-divider></mat-divider>
+                <mat-list-item
+                  ><p>
+                    <br />
+                    <br>
+                    <b>Name : </b> {{ employee?.name }} <br> <br /></p
+                ></mat-list-item>
+                <mat-divider></mat-divider>
+                <mat-list-item
+                  ><p><br><br /><b>Gender : </b> {{ employee?.gender }} <br> <br /></p
+                ></mat-list-item>
+                <mat-divider></mat-divider>
+                <mat-list-item
+                  ><p><br><br /><b>Age : </b> {{ getAge(employee?.dob) }} <br> <br /></p
+                ></mat-list-item>
+                <mat-divider></mat-divider>
+                <mat-list-item
+                  ><p><br> <br /><b>Mobile : </b> {{ employee?.mobile }} <br> <br /></p
+                ></mat-list-item>
+                <mat-divider></mat-divider>
+                <mat-list-item
+                  ><p>
+                    <br /><b>Location : </b> {{ employee?.location }}
+                  </p></mat-list-item
+                >
+              </mat-list>
+            </mat-tab>
+
+            <mat-tab>
+              <ng-template mat-tab-label>
+                <div
+                  fxLayout="row"
+                  fxLayoutGap="3px"
+                  fxLayoutAlign="center center"
+                >
+                  <div>
+                    <mat-icon>vaccines</mat-icon>
+                  </div>
+                  <div>Vaccination</div>
+                </div>
+              </ng-template>
+              <mat-list>
+                <mat-list-item><p><br><b>First Dose : </b> <span *ngIf="employee?.firstDose === 'yesFirst'">Done</span>
+                <span *ngIf="employee?.firstDose==='noFirst' || employee?.firstDose === ''">Pending</span><br>
+                </p></mat-list-item>
+                <mat-divider></mat-divider>
+
+                <mat-list-item *ngIf="employee?.firstDose==='yesFirst'"><p><br><b>Date of First Dose : </b>{{employee?.firstDate}} <br></p></mat-list-item>
+                <mat-divider></mat-divider>
+                <mat-list-item *ngIf="employee?.firstDose==='yesFirst'"><p><br><b>First Dose Certificate : </b> <button mat-raised-button (click) = "firstDoseCertificate()">Download <mat-icon>file_download</mat-icon></button> <br></p></mat-list-item>
+                <mat-divider></mat-divider>
+                <mat-list-item><p><br><b>Second Dose : </b> <span *ngIf="employee?.secondDose === 'yesSecond'">Done</span>
+                  <span *ngIf="employee?.secondDose==='noSecond' || employee?.secondDose === ''">Pending</span><br>
+                  </p></mat-list-item>
+                  <mat-divider></mat-divider>
+                  <mat-list-item *ngIf="employee?.secondDose==='yesSecond'"><p><br><b>Date of Second Dose : </b>{{employee?.secondDate}} <br></p></mat-list-item>
+                  <mat-divider></mat-divider>
+                  <mat-list-item *ngIf="employee?.secondDose==='yesSecond'"><p><br><b>Second Dose Certificate : </b> <button mat-raised-button (click) = "secondDoseCertificate()">Download <mat-icon>file_download</mat-icon></button> <br></p></mat-list-item>
+                  <mat-divider></mat-divider>
+                  <mat-list-item><p><br><b>Vaccine Taken : </b><span *ngIf="employee?.vaccine === ''">None</span>
+                  <span *ngIf="employee?.vaccine !== ''">{{employee?.vaccine}}</span><br>
+                  </p></mat-list-item>
+              </mat-list>
+            </mat-tab>
+
+            <!-- <mat-tab label="Vaccination">
+              <div fxLayout="column" style="margin-top: 30px; margin-left: 30px;" fxLayoutAlign="space-evenly start">
+              <div>
+                  <p><b>FIRST DOSE : </b> <span *ngIf="employee?.firstDose==='yesFirst'">Done</span>
+                  <span *ngIf="employee?.firstDose==='noFirst'">Pending</span>
+                  </p>
+                </div>
+
+                <div *ngIf="employee?.firstDose==='yesFirst'">
+                  <p><b>DATE OF FIRST DOSE : </b> <span>{{employee?.firstDate}}</span>
+                  </p>
+                </div>
+
+                <div *ngIf="employee?.firstDose==='yesFirst'">
+                  <p><b>FIRST DOSE CERTIFICATE :</b> <button mat-raised-button (click) = "firstDoseCertificate()">Download <mat-icon>file_download</mat-icon></button></p>
+                </div>
+
+                <div>
+                  <p><b>SECOND DOSE : </b> <span *ngIf="employee?.secondDose==='yesSecond'">Done</span>
+                  <span *ngIf="employee?.secondDose==='noSecond'">Pending</span>
+                  </p>
+              </div>
+
+              <div *ngIf="employee?.secondDose==='yesSecond'">
+                <p><b>DATE OF SECOND DOSE : </b> <span>{{employee?.secondDate}}</span>
+                </p>
+              </div>
+
+              <div *ngIf="employee?.secondDose==='yesSecond'">
+                <p><b>SECOND DOSE CERTIFICATE :</b> <button mat-raised-button (click) = "secondDoseCertificate()">Download <mat-icon>file_download</mat-icon></button></p>
+              </div>
+
+              <div *ngIf="employee?.firstDose==='yesFirst'">
+                <p><b>VACCINE TAKEN : </b> <span>{{employee?.vaccine}}</span>
+                </p>
+              </div>
+              </div>
+
+            </mat-tab> -->
+
+            <mat-tab>
+              <ng-template mat-tab-label>
+                <div
+                  fxLayout="row"
+                  fxLayoutGap="3px"
+                  fxLayoutAlign="center center"
+                >
+                  <div>
+                    <mat-icon>coronavirus</mat-icon>
+                  </div>
+                  <div>Diagnosis</div>
+                </div>
+              </ng-template>
+              <mat-list>
+                <mat-list-item><p><br><b> Diagnosed : </b> <span *ngIf="employee?.diagnosed==='yesDiagnosed'">Yes</span>
+                  <span *ngIf="employee?.diagnosed==='noDiagnosed' || employee?.diagnosed === ''">No</span><br>
+                  </p></mat-list-item>
+                  <mat-divider></mat-divider>
+                  <mat-list-item *ngIf="employee?.diagnosed==='yesDiagnosed'"><p><br><b>Date of Diagnosis : </b> <span>{{employee?.dateOfDiagnosis}}</span><br>
+                  </p></mat-list-item>
+                  <mat-divider></mat-divider>
+                  <mat-list-item *ngIf="employee?.diagnosed==='yesDiagnosed'"><p><br><b>Symptoms : </b> <span *ngIf="employee?.symptoms==='yesSymptoms'">Yes</span>
+                    <span *ngIf="employee?.symptoms==='noSymptoms'">No</span><br>
+                    </p></mat-list-item>
+                    <mat-divider></mat-divider>
+                  <mat-list-item *ngIf="employee?.diagnosed==='yesDiagnosed'"><p><b>Tested Negative : </b> <span *ngIf="employee?.testedNegative===true">Yes</span>
+                    <span *ngIf="employee?.testedNegative===false">No</span>
+                  </p></mat-list-item>
+                  <mat-divider></mat-divider>
+                  <mat-list-item *ngIf="employee?.diagnosed==='yesDiagnosed'"><p><br><b>Date of Testing Negative : </b> <span>{{employee?.dateNegative}}</span><br>
+                  </p></mat-list-item>
+                  <mat-divider></mat-divider>
+                  <mat-list-item *ngIf="employee?.diagnosed==='yesDiagnosed'"><p><br><b>Negative Test Certificate :</b> <button mat-raised-button (click) = "negativeTestCertificate()">Download <mat-icon>file_download</mat-icon></button><br></p></mat-list-item>
+                  <mat-divider></mat-divider>
+                  <mat-list-item *ngIf="employee?.diagnosed==='yesDiagnosed'"><p><br><b>Positive in Family : </b> <span *ngIf="employee?.positiveFamily">Yes</span>
+                    <span *ngIf="!employee?.positiveFamily">No</span><br>
+                  </p></mat-list-item>
+              </mat-list>
+            </mat-tab>
+
+            <!-- <mat-tab label="Diagnosis">
+              <div fxLayout="column" style="margin-top: 30px; margin-left: 30px;" fxLayoutAlign="space-evenly start">
+                <div>
+                    <p><b> DIAGNOSED : </b> <span *ngIf="employee?.diagnosed==='yesDiagnosed'">Yes</span>
+                    <span *ngIf="employee?.diagnosed==='noDiagnosed'">No</span>
+                    </p>
+                  </div>
+  
+                  <div *ngIf="employee?.diagnosed==='yesDiagnosed'">
+                    <p><b>DATE OF DIAGNOSIS : </b> <span>{{employee?.dateOfDiagnosis}}</span>
+                    </p>
+                  </div>
+  
+                  <div *ngIf="employee?.diagnosed==='yesDiagnosed'">
+                    <p><b>SYMPTOMS : </b> <span *ngIf="employee?.symptoms==='yesSymptoms'">Yes</span>
+                    <span *ngIf="employee?.symptoms==='noSymptoms'">No</span>
+                    </p>
+                </div>
+  
+                <div *ngIf="employee?.diagnosed==='yesDiagnosed'">
+                  <p><b>TESTED NEGATIVE : </b> <span *ngIf="employee?.testedNegative===true">Yes</span>
+                    <span *ngIf="employee?.testedNegative===false">No</span>
+                  </p>
+                </div>
+
+                <div *ngIf="employee?.testedNegative===true">
+                  <p><b>DATE OF TESTING NEGATIVE : </b> <span>{{employee?.dateNegative}}</span>
+                  </p>
+                </div>
+
+                <div *ngIf="employee?.testedNegative===true">
+                  <p><b>NEGATIVE TEST CERTIFICATE :</b> <button mat-raised-button (click) = "negativeTestCertificate()">Download <mat-icon>file_download</mat-icon></button></p>
+                </div>
+  
+                <div *ngIf="employee?.testedNegative===true">
+                  <p><b>POSITIVE IN FAMILY : </b> <span *ngIf="employee?.positiveFamily">Yes</span>
+                    <span *ngIf="!employee?.positiveFamily">No</span>
+                  </p>
+                </div>
+                </div>
+            </mat-tab> -->
+          </mat-tab-group>
+
+
+
+
+
+          <!-- <form class="example-form"> 
+            <table class="example-full-width" cellspacing="0"><tr fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutAlign="space-evenly center">
+              <td fxFlex="50%"><mat-form-field class="example-full-width" appearance="outline">
+                <mat-label>First name</mat-label>
+                <input matInput>
+              </mat-form-field></td>
+              <td fxFlex="50%"><mat-form-field class="example-full-width" appearance="outline">
+                <mat-label>Last Name</mat-label>
+                <input matInput>
+              </mat-form-field></td>
+            </tr></table>
+
+            <p>
+              <mat-form-field class="example-full-width" appearance="outline">
+                <mat-label>Address</mat-label>
+                <textarea matInput></textarea>
+              </mat-form-field>
+            </p>
+
+            <table class="example-full-width" cellspacing="0"><tr fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutAlign="space-evenly center">
+              <td><mat-form-field appearance="outline">
+                <mat-label>Date Of Birth</mat-label>
+                <input matInput [matDatepicker]="picker">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field></td>
+              <td><mat-form-field class="example-full-width" appearance="outline">
+                <mat-label>Mobile Number</mat-label>
+                <input matInput #mobile maxlength="10">
+                <mat-hint>{{mobile.value.length}} / 10</mat-hint>
+              </mat-form-field></td>
+            </tr></table>
+
+
+            <mat-form-field class="example-full-width" appearance="outline">
+              <mat-label>Email</mat-label>
+              <input matInput>
+            </mat-form-field>
+          
+            <table class="example-full-width" cellspacing="0"><tr fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutAlign="space-evenly center">
+              <td><mat-form-field appearance="outline">
+                <mat-label>Department</mat-label>
+                <mat-select>
+                  <mat-option value="one">First</mat-option>
+                  <mat-option value="two">Second</mat-option>
+                </mat-select>
+              </mat-form-field></td>
+              <td><mat-form-field appearance="outline">
+                <mat-label>Role</mat-label>
+                <mat-select>
+                  <mat-option value="one">First option</mat-option>
+                  <mat-option value="two">Second option</mat-option>
+                </mat-select>
+              </mat-form-field></td>
+            </tr></table>
+            <button mat-raised-button type="submit" class="submit-button">Update</button>
+          </form> -->
+        </mat-card-content>
+      </mat-card>
+    </mat-grid-tile>
+  </mat-grid-list>
+</div>
+
+

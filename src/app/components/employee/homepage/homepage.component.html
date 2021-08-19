@@ -1,0 +1,267 @@
+<div class="grid-container">
+  <mat-grid-list cols="{{ (cardLayout | async)?.columns }}" rowHeight="200px">
+    <mat-grid-tile
+      [colspan]="(cardLayout | async)?.table.cols"
+      [rowspan]="(cardLayout | async)?.table.rows"
+    >
+      <app-card>
+        <div>
+          <div
+            class="container"
+            fxLayout="column"
+            fxLayoutAlign="center center"
+          >
+            <img
+              src="../../../assets/employee.jpg"
+              alt=""
+              class="profile-image"
+            />
+            <div class="profile-name">{{ employee?.name }}</div>
+            <div class="profile-role">
+              <span>Role :</span> {{ employee?.role }}
+            </div>
+            <div class="profile-department">
+              <span>Department :</span> {{ employee?.department }}
+            </div>
+          </div>
+        </div>
+      </app-card>
+    </mat-grid-tile>
+
+    <mat-grid-tile
+      [colspan]="(cardLayout | async)?.chart.cols"
+      [rowspan]="(cardLayout | async)?.chart.rows"
+    >
+      <mat-card class="dashboard-card">
+        <mat-card-content class="dashboard-card-content">
+          <mat-tab-group mat-align-tabs="center">
+            <mat-tab>
+              <ng-template mat-tab-label>
+                <div
+                  fxLayout="row"
+                  fxLayoutGap="3px"
+                  fxLayoutAlign="center center"
+                >
+                  <div>
+                    <mat-icon>person</mat-icon>
+                  </div>
+                  <div>General</div>
+                </div>
+              </ng-template>
+              <mat-list>
+                <mat-list-item
+                  ><p>
+                    <br />
+                    <b>EMPLOYEE ID : </b> {{ employee?.empid }} <br /></p
+                ></mat-list-item>
+                <mat-divider></mat-divider>
+                <mat-list-item
+                  ><p>
+                    <br />
+                    <b>NAME : </b> {{ employee?.name }} <br /></p
+                ></mat-list-item>
+                <mat-divider></mat-divider>
+                <mat-list-item
+                  ><p><br /><b>GENDER : </b> {{ employee?.gender }} <br /></p
+                ></mat-list-item>
+                <mat-divider></mat-divider>
+                <mat-list-item
+                  ><p><br /><b>AGE : </b> {{ getAge(employee?.dob) }} <br /></p
+                ></mat-list-item>
+                <mat-divider></mat-divider>
+                <mat-list-item
+                  ><p><br /><b>MOBILE : </b> {{ employee?.mobile }} <br /></p
+                ></mat-list-item>
+                <mat-divider></mat-divider>
+                <mat-list-item
+                  ><p>
+                    <br /><b>LOCATION : </b> {{ employee?.location }}
+                  </p></mat-list-item
+                >
+              </mat-list>
+            </mat-tab>
+
+            <mat-tab>
+              <ng-template mat-tab-label>
+                <div
+                  fxLayout="row"
+                  fxLayoutGap="3px"
+                  fxLayoutAlign="center center"
+                >
+                  <div>
+                    <mat-icon>edit</mat-icon>
+                  </div>
+                  <div>Forms</div>
+                </div>
+              </ng-template>
+              <mat-list>
+                <a
+                  mat-list-item
+                  [routerLink]="['/employee/vform']"
+                  routerLinkActive="router-link-active"
+                  style="text-decoration: none; color: cornflowerblue"
+                  ><mat-icon>arrow_right_alt</mat-icon> Vaccination Form</a
+                >
+
+                <mat-divider></mat-divider>
+                <a
+                  mat-list-item
+                  [routerLink]="['/employee/dform']"
+                  routerLinkActive="router-link-active"
+                  style="text-decoration: none; color: cornflowerblue"
+                  ><mat-icon>arrow_right_alt</mat-icon>Diagnosis Form</a
+                >
+              </mat-list>
+            </mat-tab>
+          </mat-tab-group>
+        </mat-card-content>
+      </mat-card>
+    </mat-grid-tile>
+
+    <mat-grid-tile
+      [colspan]="(cardLayout | async)?.news.cols"
+      [rowspan]="(cardLayout | async)?.news.rows"
+    >
+      <app-card>
+        <div fxLayout="column" fxLayoutGap="3px" fxLayoutAlign="center center">
+          <div>
+            <h2>INDIA COVID STATUS</h2>
+          </div>
+          <div>
+            <h2><mat-icon>description</mat-icon></h2>
+          </div>
+        </div>
+        <div class="container" fxLayout="column" fxLayoutAlign="center center">
+          <br />
+          <div
+            fxLayout="column"
+            fxLayoutGap="70px"
+            fxLayoutAlign="space-between center"
+          >
+            <div class="cases">
+              <p class="casesData">{{ casesCount + " L" }}</p>
+              <p>Total Cases</p>
+            </div>
+
+            <div class="activeCases">
+              <p class="activeData">{{ activeCount + " L" }}</p>
+              <p>Active Cases</p>
+            </div>
+
+            <div class="recovered">
+              <p class="recoveredData">{{ recoveredCount + " L" }}</p>
+              <p>Total Recovered</p>
+            </div>
+
+            <div class="deaths">
+              <p class="deathsData">{{ deathsCount + " L" }}</p>
+              <p>Total Deaths</p>
+            </div>
+          </div>
+        </div>
+      </app-card>
+    </mat-grid-tile>
+
+    <mat-grid-tile
+      [colspan]="(cardLayout | async)?.miniCard.cols"
+      [rowspan]="(cardLayout | async)?.miniCard.rows"
+    >
+      <app-card>
+        <div>
+          <div fxLayout="row" fxLayoutGap="3px" fxLayoutAlign="center center">
+            <div>
+              <h2>Vaccination Status</h2>
+            </div>
+            <div>
+              <h2><mat-icon>vaccines</mat-icon></h2>
+            </div>
+          </div>
+
+          <div
+            class="container"
+            fxLayout="column"
+            fxLayoutAlign="center center"
+          >
+            <div>
+              <p>
+                <b> First Dose : </b
+                ><span *ngIf="employee?.firstDose === 'yesFirst'">Done</span>
+                <span
+                  *ngIf="
+                    employee?.firstDose === 'noFirst' ||
+                    employee?.firstDose === ''
+                  "
+                  >Pending</span
+                >
+              </p>
+            </div>
+            <div>
+              <p>
+                <b> Second Dose : </b
+                ><span *ngIf="employee?.secondDose === 'yesSecond'">Done</span>
+                <span
+                  *ngIf="
+                    employee?.secondDose === 'noSecond' ||
+                    employee?.secondDose === ''
+                  "
+                  >Pending</span
+                >
+              </p>
+            </div>
+            <div>
+              <p>
+                <b> Vaccine Taken : </b>
+                <span *ngIf="employee?.vaccine === ''">None</span>
+                <span *ngIf="employee?.vaccine !== ''">{{employee?.vaccine}}</span>
+              </p>
+            </div>
+
+          </div>
+        </div>
+      </app-card>
+    </mat-grid-tile>
+
+    <mat-grid-tile
+      [colspan]="(cardLayout | async)?.stats.cols"
+      [rowspan]="(cardLayout | async)?.stats.rows"
+    >
+      <app-card>
+        <div>
+          <h2>Latest in healthcare</h2>
+
+          <br />
+          <carousel
+            [cellsToScroll]="3"
+            [loop]="true"
+            [autoplay]="true"
+            [autoplayInterval]="4000"
+            [margin]="20"
+            [arrowsTheme]="'dark'"
+            [height] = "250"
+            [cellWidth] = "150"
+          >
+            <div class="carousel-cell" *ngFor="let new of news2">
+              <div fxLayout="column" fxLayoutAlign="center center">
+                <div>
+                  <a [href]="new.url" target="_blank"
+                    ><img
+                      [src]="new.urlToImage"
+                      [alt]="new.title"
+                      class="newsImage"
+                      onerror="this.src = 'https://developers.google.com/maps/documentation/maps-static/images/error-image-generic.png'"
+                    />
+                  </a>
+                </div>
+                <div>
+                  <a [href]="new.url" style="text-decoration: none"
+                    ><h5>{{ new.title }}</h5></a
+                  >
+                </div>
+              </div>
+            </div>
+          </carousel>
+        </div>
+      </app-card>
+    </mat-grid-tile>
+  </mat-grid-list>
+</div>

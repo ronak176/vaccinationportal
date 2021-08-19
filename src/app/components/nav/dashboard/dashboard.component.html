@@ -1,0 +1,421 @@
+<div class="grid-container">
+  <mat-grid-list cols="{{ (cardLayout | async)?.columns }}" rowHeight="200px">
+
+    <!-- <mat-grid-tile
+      [colspan]="(cardLayout | async)?.miniCard.cols"
+      [rowspan]="(cardLayout | async)?.miniCard.rows"
+    >
+    <mat-card class="dashboard-card">
+      <mat-toolbar class="chart-bar">
+        <span>OFFICE STRENGTH</span>
+      </mat-toolbar>
+      <mat-card-content class="dashboard-card-content">
+        <app-employees-at-work-chart></app-employees-at-work-chart>
+      </mat-card-content>
+    </mat-card>
+    </mat-grid-tile> -->
+        <mat-grid-tile
+      [colspan]="(cardLayout | async)?.miniCard.cols"
+      [rowspan]="(cardLayout | async)?.miniCard.rows"
+    >
+    <mat-card class="dashboard-card">
+      <mat-toolbar class="chart-bar">
+        <span>STATUS</span>
+      </mat-toolbar>
+      <mat-card-content class="dashboard-card-content">
+        <div><app-status-chart></app-status-chart></div
+          >
+      </mat-card-content>
+    </mat-card>
+  </mat-grid-tile>
+
+        <mat-grid-tile
+      [colspan]="(cardLayout | async)?.miniCard.cols"
+      [rowspan]="(cardLayout | async)?.miniCard.rows"
+    >
+    <mat-card class="dashboard-card">
+      <mat-toolbar class="chart-bar">
+        <span>VACCINATION</span>
+      </mat-toolbar>
+      <mat-card-content class="dashboard-card-content">
+        <app-vaccination-chart></app-vaccination-chart>
+      </mat-card-content>
+    </mat-card>
+    </mat-grid-tile>
+
+        <mat-grid-tile
+      [colspan]="(cardLayout | async)?.miniCard.cols"
+      [rowspan]="(cardLayout | async)?.miniCard.rows"
+    >
+    <mat-card class="dashboard-card">
+      <mat-toolbar class="chart-bar">
+        <span>DIAGNOSIS</span>
+      </mat-toolbar>
+      <mat-card-content class="dashboard-card-content">
+        <app-diagnosis-chart></app-diagnosis-chart>
+      </mat-card-content>
+    </mat-card>
+    </mat-grid-tile> 
+
+    <mat-grid-tile
+      [colspan]="(cardLayout | async)?.table.cols"
+      [rowspan]="(cardLayout | async)?.table.rows"
+    >
+    <mat-card class="dashboard-card">
+      <mat-card-content class="dashboard-card-content">
+        <div fxLayout="row" fxLayoutAlign="space-between center">
+          <mat-form-field  class="employee-search" appearance="standard">
+            <mat-label>Search</mat-label>
+            <input matInput (keyup)="applyFilter($event)" #input>
+          </mat-form-field>
+  
+          <div>
+            <button mat-icon-button [matMenuTriggerFor]="filters">
+              <mat-icon>filter_alt</mat-icon>
+            </button>
+            <button mat-icon-button (click)="exporter.exportTable('csv', {fileName : 'report'})">
+              <mat-icon>file_download</mat-icon>
+            </button>
+          </div>
+        </div>
+        <br>
+
+        <mat-menu #filters = "matMenu">
+          <mat-accordion (click) = "$event.stopPropagation()">
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  Filter by department
+                </mat-panel-title>
+                <mat-icon>apartment</mat-icon>
+              </mat-expansion-panel-header>
+                <mat-form-field appearance="fill">
+                  <mat-label>Department</mat-label>
+                  <mat-select [(ngModel)]="departmentFilter">
+                    <mat-option value="1">Admin</mat-option>
+                    <mat-option value="2">HR</mat-option>
+                    <mat-option value="3">Security</mat-option>
+                    <mat-option value="4">Development</mat-option>
+                    <mat-option value="5">Accounts</mat-option>
+                    <mat-option value = "">None</mat-option>
+                  </mat-select>
+                </mat-form-field>
+            </mat-expansion-panel>
+
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  Filter by Vaccination
+                </mat-panel-title>
+                <mat-icon>vaccines</mat-icon>
+              </mat-expansion-panel-header>
+                <mat-form-field appearance="fill">
+                  <mat-label>Vaccination</mat-label>
+                  <mat-select [(ngModel)]="vaccinationFilter">
+                    <mat-option value="1">First Dose</mat-option>
+                    <mat-option value="2">Second Dose</mat-option>
+                    <mat-option value = "">None</mat-option>
+                  </mat-select>
+                </mat-form-field>
+            </mat-expansion-panel>
+
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  Filter by Diagnosis
+                </mat-panel-title>
+                <mat-icon>coronavirus</mat-icon>
+              </mat-expansion-panel-header>
+              <mat-form-field appearance="fill">
+                <mat-label>Diagnosis</mat-label>
+                <mat-select [(ngModel)]="diagnosisFilter">
+                  <mat-option value="1">Diagnosed</mat-option>
+                  <mat-option value="2">Not Diagnosed</mat-option>
+                  <mat-option value = "">None</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </mat-expansion-panel>
+
+          </mat-accordion> 
+          <br>
+          <div  fxLayout="row" fxLayoutAlign="center center">
+            <button mat-raised-button color="primary" (click) = "customFilter()">Apply</button>
+            <button mat-raised-button color="warn" (click) = "clearFilter()">Reset</button>
+          </div>
+          
+              
+        </mat-menu>
+
+        <!-- <div class="mat-elevation-z8">
+          <table mat-table matTableExporter [dataSource] = "dataSource" class="full-width-table" matSort aria-label="Elements" #exporter="matTableExporter">
+            <ng-container matColumnDef="empid">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
+              <td mat-cell *matCellDef="let employee">{{employee.empid}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="name">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+              <td mat-cell *matCellDef="let employee">{{employee.name}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="age">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Age</th>
+              <td mat-cell *matCellDef="let employee">{{getAge(employee.dob)}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="location">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Location</th>
+              <td mat-cell *matCellDef="let employee">
+                <div *ngIf="employee.location !== ''">{{employee.location}}</div>
+                <div *ngIf="employee.location === ''">-</div>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="department">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Department</th>
+              <td mat-cell *matCellDef="let employee">{{employee.department}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="firstDose">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>First Dose</th>
+              <td mat-cell *matCellDef="let employee">
+                <span *ngIf="employee.firstDose == 'yesFirst'">Yes</span>
+                <span *ngIf="employee.firstDose == 'noFirst' || employee.firstDose === ''">No</span>
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="secondDose">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Second Dose</th>
+              <td mat-cell *matCellDef="let employee">
+                <span *ngIf="employee.secondDose == 'yesSecond'">Yes</span>
+                <span *ngIf="employee.secondDose == 'noSecond'  || employee.secondDose === ''">No</span>
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="diagnosed">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Diagnosed</th>
+              <td mat-cell *matCellDef="let employee">
+                <span *ngIf="employee.diagnosed == 'yesDiagnosed'">Yes</span>
+                <span *ngIf="employee.diagnosed == 'noDiagnosed' || employee.diagnosed == ''">No</span>
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="eligible">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Eligible In</th>
+              <td mat-cell *matCellDef="let employee">
+                <div *ngIf="employee.secondDose !== '' || employee.diagnosed !== ''">{{getEligibleIn(employee)}}</div>
+                <div *ngIf="(employee.secondDose === '' && employee.diagnosed === '') || (employee.secondDose === '' && employee.diagnosed === 'noDiagnosed')">Pending Response</div>
+                <div *ngIf="employee.diagnosed == 'yesDiagnosed' && employee.testedNegative == false ">Not Negative</div>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef = "let row; columns: displayedColumns;" (click)="onClick($event, row)"></tr>
+
+            <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell" colspan="4">No match</td>
+            </tr>
+          </table>
+          <mat-paginator
+            [pageSizeOptions]="[5, 10, 20]"
+            showFirstLastButtons
+          ></mat-paginator>
+        </div> -->
+
+        <div class="example-container mat-elevation-z8">
+          <mat-table #table  [dataSource] = "dataSource" aria-label="Elements">
+            <ng-container matColumnDef="empid">
+              <mat-header-cell *matHeaderCellDef><span class="header-cell">ID</span></mat-header-cell>
+              <mat-cell *matCellDef="let employee">
+                <span class="mobile-label">ID:</span>
+                {{employee.empid}}
+              </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="name">
+              <mat-header-cell *matHeaderCellDef> <span class="header-cell">Name</span></mat-header-cell>
+              <mat-cell *matCellDef="let employee">
+                <span class="mobile-label">Name:</span>
+                {{employee.name}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="age">
+              <mat-header-cell *matHeaderCellDef> <span class="header-cell">Age</span> </mat-header-cell>
+              <mat-cell *matCellDef="let employee">
+                <span class="mobile-label">Age:</span>
+                {{getAge(employee.dob)}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="location">
+              <mat-header-cell *matHeaderCellDef> <span class="header-cell">Location</span> </mat-header-cell>
+              <mat-cell *matCellDef="let employee">
+                <span class="mobile-label">Location:</span>
+                <div *ngIf="employee.location !== ''">{{employee.location}}</div>
+                <div *ngIf="employee.location === ''">-</div>
+              </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="department">
+              <mat-header-cell *matHeaderCellDef> <span class="header-cell">Department</span> </mat-header-cell>
+              <mat-cell *matCellDef="let employee" style="text-transform: capitalize;">
+                <span class="mobile-label">Department:</span>
+                {{employee.department}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="firstDose">
+              <mat-header-cell *matHeaderCellDef> <span class="header-cell">First Dose</span> </mat-header-cell>
+              <mat-cell *matCellDef="let employee">
+                <span class="mobile-label">First Dose:</span>
+                <span *ngIf="employee.firstDose == 'yesFirst'">Yes</span>
+                <span *ngIf="employee.firstDose == 'noFirst' || employee.firstDose === ''">No</span>
+                </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="secondDose">
+              <mat-header-cell *matHeaderCellDef> <span class="header-cell">Second Dose</span> </mat-header-cell>
+              <mat-cell *matCellDef="let employee">
+                <span class="mobile-label">Second Dose:</span>
+                <span *ngIf="employee.secondDose == 'yesSecond'">Yes</span>
+                <span *ngIf="employee.secondDose == 'noSecond'  || employee.secondDose === ''">No</span>
+                </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="diagnosed">
+              <mat-header-cell *matHeaderCellDef> <span class="header-cell">Diagnosed</span> </mat-header-cell>
+              <mat-cell *matCellDef="let employee">
+                <span class="mobile-label">Diagnosed:</span>
+                <span *ngIf="employee.diagnosed == 'yesDiagnosed'">Yes</span>
+                <span *ngIf="employee.diagnosed == 'noDiagnosed' || employee.diagnosed == ''">No</span>
+                </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="eligible">
+              <mat-header-cell *matHeaderCellDef> <span class="header-cell">Eligibility</span> </mat-header-cell>
+              <mat-cell *matCellDef="let employee">
+                <span class="mobile-label">Eligibility:</span>
+                <div *ngIf="employee.secondDose !== '' || employee.diagnosed !== ''">{{getEligibleIn(employee)}}</div>
+                <div *ngIf="(employee.secondDose === '' && employee.diagnosed === '') || (employee.secondDose === '' && employee.diagnosed === 'noDiagnosed')">Pending Response</div>
+                <div *ngIf="employee.diagnosed == 'yesDiagnosed' && employee.testedNegative == false ">Not Negative</div>
+              </mat-cell>
+            </ng-container>
+
+
+              <ng-container matColumnDef="reason">
+                <mat-header-cell *matHeaderCellDef> <span class="header-cell">Reason</span></mat-header-cell>
+                <mat-cell *matCellDef="let employee">
+                  <span class="mobile-label">Reason:</span>
+                  <div *ngIf="employee.firstReason === '' && employee.secondReason === ''">Pending Response</div>
+                  <div *ngIf="employee.firstReason !== ''">{{employee.firstReason}}</div>
+                  <div *ngIf="employee.secondReason !== ''">{{employee.secondReason}}</div>
+                </mat-cell>
+              </ng-container>
+ 
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef = "let row; columns: displayedColumns;" (click)="onClick($event, row)"></mat-row>
+
+            <tr *matNoDataRow>
+                  <td>No results found</td>
+              </tr>
+          </mat-table>
+          <mat-paginator
+            [pageSizeOptions]="[5, 10, 20]"
+            showFirstLastButtons
+          ></mat-paginator>
+        </div>
+
+        <div class="example-container mat-elevation-z8" style="display: none;">
+          <mat-table matTableExporter [dataSource] = "dataSource2" aria-label="Elements" #exporter="matTableExporter">
+            <ng-container matColumnDef="empid">
+              <mat-header-cell *matHeaderCellDef><span class="header-cell">ID</span></mat-header-cell>
+              <mat-cell *matCellDef="let employee">
+                {{employee.empid}}
+              </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="name">
+              <mat-header-cell *matHeaderCellDef> <span class="header-cell">Name</span></mat-header-cell>
+              <mat-cell *matCellDef="let employee">
+                {{employee.name}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="age">
+              <mat-header-cell *matHeaderCellDef> <span class="header-cell">Age</span> </mat-header-cell>
+              <mat-cell *matCellDef="let employee">
+                {{getAge(employee.dob)}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="location">
+              <mat-header-cell *matHeaderCellDef> <span class="header-cell">Location</span> </mat-header-cell>
+              <mat-cell *matCellDef="let employee">
+                <div *ngIf="employee.location !== ''">{{employee.location}}</div>
+                <div *ngIf="employee.location === ''">-</div>
+              </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="department">
+              <mat-header-cell *matHeaderCellDef> <span class="header-cell">Department</span> </mat-header-cell>
+              <mat-cell *matCellDef="let employee" style="text-transform: capitalize;">
+                {{employee.department}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="firstDose">
+              <mat-header-cell *matHeaderCellDef> <span class="header-cell">First Dose</span> </mat-header-cell>
+              <mat-cell *matCellDef="let employee">
+                <span *ngIf="employee.firstDose == 'yesFirst'">Yes</span>
+                <span *ngIf="employee.firstDose == 'noFirst' || employee.firstDose === ''">No</span>
+                </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="secondDose">
+              <mat-header-cell *matHeaderCellDef> <span class="header-cell">Second Dose</span> </mat-header-cell>
+              <mat-cell *matCellDef="let employee">
+                <span *ngIf="employee.secondDose == 'yesSecond'">Yes</span>
+                <span *ngIf="employee.secondDose == 'noSecond'  || employee.secondDose === ''">No</span>
+                </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="diagnosed">
+              <mat-header-cell *matHeaderCellDef> <span class="header-cell">Diagnosed</span> </mat-header-cell>
+              <mat-cell *matCellDef="let employee">
+                <span *ngIf="employee.diagnosed == 'yesDiagnosed'">Yes</span>
+                <span *ngIf="employee.diagnosed == 'noDiagnosed' || employee.diagnosed == ''">No</span>
+                </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="eligible">
+              <mat-header-cell *matHeaderCellDef> <span class="header-cell">Eligibility</span> </mat-header-cell>
+              <mat-cell *matCellDef="let employee">
+                <div *ngIf="employee.secondDose !== '' || employee.diagnosed !== ''">{{getEligibleIn(employee)}}</div>
+                <div *ngIf="(employee.secondDose === '' && employee.diagnosed === '') || (employee.secondDose === '' && employee.diagnosed === 'noDiagnosed')">Pending Response</div>
+                <div *ngIf="employee.diagnosed == 'yesDiagnosed' && employee.testedNegative == false ">Not Negative</div>
+              </mat-cell>
+            </ng-container>
+
+
+              <ng-container matColumnDef="reason">
+                <mat-header-cell *matHeaderCellDef> <span class="header-cell">Reason</span></mat-header-cell>
+                <mat-cell *matCellDef="let employee">
+                  <div *ngIf="employee.firstReason === '' && employee.secondReason === ''">-</div>
+                  <div *ngIf="employee.firstReason !== ''">{{employee.firstReason}}</div>
+                  <div *ngIf="employee.secondReason !== ''">{{employee.secondReason}}</div>
+                </mat-cell>
+              </ng-container>
+ 
+            <mat-header-row *matHeaderRowDef="displayedColumns2"></mat-header-row>
+            <mat-row *matRowDef = "let row; columns: displayedColumns2;" (click)="onClick($event, row)"></mat-row>
+
+            <tr *matNoDataRow>
+                  <td>No results found</td>
+              </tr>
+          </mat-table>
+          <mat-paginator
+            [pageSizeOptions]="[5, 10, 20]"
+            showFirstLastButtons
+          ></mat-paginator>
+        </div>
+
+      </mat-card-content>
+    </mat-card>
+    </mat-grid-tile>
+  </mat-grid-list>
+</div>

@@ -1,0 +1,256 @@
+<div>
+  <mat-card>
+    <mat-card-title>Vaccination Form</mat-card-title>
+    <mat-card-content>
+      <mat-horizontal-stepper #stepper linear = true *ngIf="!formSubmitted" completed=false>
+        <mat-step [stepControl]="firstFormGroup">
+          <form [formGroup]="firstFormGroup">
+            <ng-template matStepLabel>Step</ng-template>
+            <p>Did you take your first Dose?</p>
+            <mat-radio-group
+              formControlName="firstDose"
+              required
+              [(ngModel)]="newDetails.firstDose"
+            >
+              <mat-radio-button value="yesFirst">Yes</mat-radio-button>
+              <mat-radio-button value="noFirst">No</mat-radio-button>
+            </mat-radio-group>
+            <br />
+            <br>
+            <div *ngIf="newDetails.firstDose === 'noFirst'">
+              <p>Can you please provide a reason why you have not taken the first dose?</p>
+              <mat-form-field>
+                <textarea required matInput formControlName="firstReason" [(ngModel)]="newDetails.firstReason"></textarea>
+                <br>
+              </mat-form-field>
+            </div>
+            <br>
+            <br>
+            <button mat-raised-button matStepperPrevious color="warn">Back</button> 
+            <span> | </span>
+            <button [disabled] = "newDetails.firstDose === ''" mat-raised-button matStepperNext (click)="clickFirstDose()" color="primary">
+              Next
+            </button>
+          </form>
+        </mat-step>
+
+        <mat-step [stepControl]="firstFormGroup" *ngIf="newDetails.firstDose === 'yesFirst'">
+          <form [formGroup]="firstFormGroup">
+            <ng-template matStepLabel>Step</ng-template>
+            <p>When did you get your first Dose?</p>
+            <mat-form-field>
+              <mat-label>Choose a date</mat-label>
+              <input
+              name = "myDate"
+                matInput
+                [matDatepicker]="picker"
+                formControlName="firstDate"
+                [(ngModel)]="firstDateOriginal"
+              />
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="picker"
+              ></mat-datepicker-toggle>
+              <mat-datepicker required #picker></mat-datepicker> 
+            </mat-form-field>
+            <br />
+            <br>
+            <button mat-raised-button color="warn" matStepperPrevious>Back</button>
+            <span> | </span>
+            <button [disabled] = "firstDateOriginal === null" mat-raised-button color="primary" matStepperNext (click)="clickFirstDate()">
+              Next
+            </button>
+          </form>
+        </mat-step>
+
+        <mat-step  [stepControl] = "firstFormGroup" *ngIf="newDetails.firstDose === 'yesFirst'">
+          <form [formGroup]="firstFormGroup">
+            <ng-template matStepLabel>Step</ng-template>
+            <br>
+          <p>Please upload your first Dose Vaccination Certificate.</p>
+          <br>
+          <input type="file" style="margin: 1px auto;" (change) = "uploadFirst($event)" accept="*.pdf" id="">
+          <br>
+          <br>
+          <button *ngIf="uploadValidFirst" mat-raised-button (click) = "uploadFirstCertificate()">Upload</button>
+          <br>
+          <div *ngIf="uploadSuccessFirst">
+            <p style="color: lawngreen;">File Uploaded Successfully!!</p>
+          </div>
+          <br>
+          <button mat-raised-button color="warn" matStepperPrevious>Back</button>
+          <span> | </span>
+          <button [disabled] = "!uploadSuccessFirst" mat-raised-button color="primary" matStepperNext>
+            Next
+          </button>
+          </form>
+        </mat-step>
+
+        <mat-step [stepControl]="firstFormGroup" *ngIf="newDetails.firstDose === 'yesFirst'">
+          <form [formGroup]="firstFormGroup">
+            <ng-template matStepLabel>Step</ng-template>
+            <p>Which Vaccine did you get?</p>
+            <mat-form-field>
+              <mat-label>Vaccine</mat-label>
+              <mat-select
+                formControlName="vaccine"
+                [(ngModel)]="newDetails.vaccine"
+              >
+                <mat-option value="Covishield">Covishield</mat-option>
+                <mat-option value="Covaxin">Covaxin</mat-option>
+                <mat-option value="Sputnik-V">Sputnik-V</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <br />
+            <br>
+            <button mat-raised-button color="warn" matStepperPrevious>Back</button>
+            <span> | </span>
+            <button [disabled] = "newDetails.vaccine === ''" mat-raised-button color="primary" matStepperNext (click)="clickVaccine()">
+              Next
+            </button>
+          </form>
+        </mat-step>
+
+        <mat-step [stepControl]="firstFormGroup" *ngIf="newDetails.firstDose === 'yesFirst'">
+          <form [formGroup]="firstFormGroup">
+            <ng-template matStepLabel>Step</ng-template>
+            <p>Did you take your Second Dose?</p>
+            <mat-radio-group
+              formControlName="secondDose"
+              [(ngModel)]="newDetails.secondDose"
+            >
+              <mat-radio-button value="yesSecond">Yes</mat-radio-button>
+              <mat-radio-button value="noSecond">No</mat-radio-button>
+            </mat-radio-group>
+            <br />
+            <br>
+            <div *ngIf="newDetails.secondDose === 'noSecond'">
+              <p>Can you please provide a reason why you have not taken the Second dose and also when are you eligible for it?</p>
+              <mat-form-field>
+                <textarea required matInput formControlName="secondReason" [(ngModel)]="newDetails.secondReason"></textarea>
+                <br>
+              </mat-form-field>
+            </div>
+            <br>
+            <br>
+            <button mat-raised-button color="warn" matStepperPrevious>Back</button>
+            <span> | </span>
+            <button [disabled] = "newDetails.secondDose === ''" mat-raised-button color="primary" matStepperNext (click)="clickSecondDose()">
+              Next
+            </button>
+          </form>
+        </mat-step>
+
+        <mat-step
+          [stepControl]="firstFormGroup"
+          *ngIf="newDetails.secondDose === 'yesSecond' && newDetails.firstDose === 'yesFirst'"
+        >
+          <form [formGroup]="firstFormGroup">
+            <ng-template matStepLabel>Step</ng-template>
+            <p>When did you get your Second Dose?</p>
+            <mat-form-field>
+              <mat-label>Choose a date</mat-label>
+              <input
+                matInput
+                [matDatepicker]="picker2"
+                formControlName="secondDate"
+                [(ngModel)]="secondDateOriginal"
+              />
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="picker2"
+              ></mat-datepicker-toggle>
+              <mat-datepicker required #picker2></mat-datepicker>
+            </mat-form-field>
+            <br />
+            <br>
+            <button mat-raised-button color="warn" matStepperPrevious>Back</button>
+            <span> | </span>
+            <button [disabled] = "secondDateOriginal === null" mat-raised-button color="primary" matStepperNext (click)="clickSecondDate()">
+              Next
+            </button>
+          </form>
+        </mat-step>
+
+        <mat-step  [stepControl] = "firstFormGroup" *ngIf="newDetails.secondDose === 'yesSecond' && newDetails.firstDose === 'yesFirst'">
+          <form [formGroup]="firstFormGroup">
+            <ng-template matStepLabel>Step</ng-template>
+            <br>
+          <p>Please upload your Second Dose Vaccination Certificate.</p>
+          <br>
+          <input type="file" style="margin: 1px auto;" (change) = "uploadSecond($event)" accept="*.pdf" id="">
+          <br>
+          <br>
+          <button *ngIf="uploadValidSecond" mat-raised-button (click) = "uploadSecondCertificate()">Upload</button>
+          <br>
+          <div *ngIf="uploadSuccessSecond">
+            <p style="color: lawngreen;">File Uploaded Successfully!!</p>
+          </div>
+          <br>
+          <button mat-raised-button color="warn" matStepperPrevious>Back</button>
+          <span> | </span>
+          <button [disabled] = "!uploadSuccessSecond" mat-raised-button color="primary" matStepperNext>
+            Next
+          </button>
+          </form>
+        </mat-step>
+
+        <mat-step [stepControl] = "firstFormGroup">
+          <form [formGroup]="firstFormGroup">
+            <ng-template matStepLabel>Step</ng-template>
+            <br>
+            <br>
+            <p>Where are you currently working from?</p>
+            <mat-form-field>
+              <input matInput placeholder="City, State" type="text" formControlName="location" [(ngModel)]="newDetails.location">
+              <br>
+            </mat-form-field>
+            <br>
+            <br>
+            <button mat-raised-button color="warn" matStepperPrevious>Back</button>
+            <span> | </span>
+            <button [disabled]="newDetails.location === ''" mat-raised-button color="primary" matStepperNext (click)="clickLocation()">
+              Next
+            </button>
+          </form>
+        </mat-step>
+
+        <mat-step>
+          <ng-template matStepLabel>Step</ng-template>
+          <br>
+          <br>
+          <div>
+            <div *ngIf="newDetails.secondDose === 'yesSecond' && newDetails.firstDose === 'yesFirst'">
+              <p>Once you are eligible, you have to adhere to the following guidelines. Please make sure you read them carefully.</p>
+              <pdf-viewer [src] = "pdfSrc" [render-text] = "true"></pdf-viewer>
+            </div>
+            <br>
+            <br>
+            <div>
+              <button mat-raised-button (click)="clickSubmit()" color="primary">Submit</button>
+              <span> | </span>
+              <button mat-raised-button (click) = "stepper.reset()" color="warn">Cancel</button>
+            </div>
+          </div>
+          
+          
+        </mat-step>
+      </mat-horizontal-stepper>
+
+      <div *ngIf="firstTimeResponse">
+        <p>Thank you for your Response!</p>
+        <button mat-raised-button (click)="clickEdit()">Edit</button>
+      </div>
+      <div *ngIf="formSubmitted && !firstTimeResponse">
+        <p>You have already submitted the form.</p>
+        <button mat-raised-button (click)="clickEdit()">Edit</button>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
+
+<!-- <div>
+  <label for="Certificate">Certificate File</label>
+  <input type="file" (change) = "upload($event)" accept="*.pdf" id="">
+  <button (click) = "uploadCertificate()">Upload</button>
+</div> -->

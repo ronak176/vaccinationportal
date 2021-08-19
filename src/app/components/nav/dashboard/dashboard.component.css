@@ -1,0 +1,161 @@
+.grid-container {
+  margin: 20px;
+}
+
+.dashboard-card {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  right: 15px;
+  bottom: 15px;
+}
+
+.more-button {
+  position: absolute;
+  top: 5px;
+  right: 10px;
+}
+
+.dashboard-card-content {
+  text-align: center;
+}
+
+.more-button {
+  position: absolute;
+  top: 5px;
+  right: 10px;
+}
+
+.dashboard-card {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  right: 15px;
+  bottom: 15px;
+}
+
+.dashboard-card-content {
+  text-align: center;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-height: 100%;
+  justify-content: center;
+  align-items: stretch;
+  margin : 16px;
+}
+
+mat-card {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+}
+
+.chart-bar{
+  background: #3d84b8;
+  color: white;
+}
+
+.notification-bar{
+  background: #4aa96c;
+  color: white;
+}
+
+.stats-table-bar{
+  background: #ac66cc;
+  color: white;
+}
+
+.full-width-table {
+  width: 100%;
+}
+
+ ::ng-deep .mat-sort-header-container {
+  display:flex;
+  justify-content:center;
+}
+
+a{
+  text-decoration: none;
+  color: rgba(0,0,0,.87);
+}
+
+.header{
+  padding-bottom: 50px;
+  font-size: 1.5em;
+  font-weight: 600;
+}
+
+.employee-search{
+  width : 30%;
+}
+
+::ng-deep.mat-menu-panel {
+  max-width: none !important;
+}
+
+.mat-expansion-panel{
+  margin : 10px;
+}
+
+mat-icon{
+  margin-right: 5px;
+}
+
+.mat-expansion-panel{
+  margin-bottom: 5px;
+}
+
+button{
+  margin-right: 5px;
+}
+
+tr{
+  cursor : pointer;
+}
+
+.example-container {
+  display: flex;
+  flex-direction: column;
+  max-height: 500px;
+  min-width: 300px;
+}
+
+.mat-table {
+  overflow: auto;
+  max-height: 500px;
+}
+
+.mobile-label {
+  display: none;
+}
+
+@media(max-width: 600px) {
+  .mobile-label {
+    width: 80px;
+    display: inline-block;
+        font-weight: bold;
+  }
+
+  .mat-header-row {
+    display: none;
+  }
+
+  .mat-row { 
+    flex-direction: column;
+    align-items: start;
+    padding: 8px 24px;
+  }
+}
+
+.header-cell{
+  font-weight: 600;
+}
+
+
+
+
+
+
+

@@ -1,0 +1,16 @@
+<div fxLayout="column" fxLayoutAlign="space-evenly center" fxLayoutGap="60px" *ngIf="isDataAvailable">
+  
+  <div class="chartContainer" style="display: block">
+    <canvas 
+      baseChart
+      [data]="pieChartData"
+      [labels]="pieChartLabels"
+      [chartType]="pieChartType"
+      [options]="pieChartOptions"
+      [plugins]="pieChartPlugins"
+      [legend]="pieChartLegend"
+      [options]="options"
+    >
+    </canvas>
+  </div>
+</div>

@@ -1,0 +1,13 @@
+<div fxLayout="column" fxLayoutAlign="space-evenly center" fxLayoutGap="60px" *ngIf="isDataAvailable">
+  <div class="chartContainer" style="display: block">
+    <canvas
+      baseChart
+      [data]="doughnutChartData"
+      [labels]="doughnutChartLabels"
+      [chartType]="doughnutChartType"
+      [legend]="true"
+      [options]="options"
+    >
+    </canvas>
+  </div>
+</div>

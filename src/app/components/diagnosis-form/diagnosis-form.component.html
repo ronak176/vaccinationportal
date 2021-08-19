@@ -1,0 +1,229 @@
+<div>
+  <mat-card>
+    <mat-card-title> Diagnosis Form </mat-card-title>
+    <mat-card-content>
+      <mat-horizontal-stepper #stepper linear= true *ngIf="!formSubmitted" completed = false>
+        <mat-step [stepControl]="formGroup">
+          <form [formGroup]="formGroup">
+            <ng-template matStepLabel>Step</ng-template>
+            <br />
+            <br />
+            <p>Have you contracted Covid in the last 3 months?</p>
+            <mat-radio-group required formControlName="diagnosed" [(ngModel)]="newDetails.diagnosed">
+              <mat-radio-button value="yesDiagnosed">Yes</mat-radio-button>
+              <mat-radio-button value="noDiagnosed">No</mat-radio-button>
+            </mat-radio-group>
+            <br />
+            <br />
+            <button mat-raised-button color="warn" matStepperPrevious>Back</button>
+            <span> | </span>
+            <button [disabled] = "newDetails.diagnosed === undefined" mat-raised-button matStepperNext color="primary" (click)="clickDiagnosed()">
+              Next
+            </button>
+          </form>
+        </mat-step>
+
+        <mat-step [stepControl]="formGroup" *ngIf="newDetails.diagnosed === 'yesDiagnosed'">
+          <form [formGroup]="formGroup">
+            <ng-template matStepLabel>Step</ng-template>
+            <br />
+            <br />
+            <p>When did you contract Covid?</p>
+            <mat-form-field>
+              <mat-label>Choose a date</mat-label>
+              <input
+                matInput
+                [matDatepicker]="picker1"
+                formControlName="dateOfDiagnosis"
+                [(ngModel)]="diagnosisDate"
+              />
+              <mat-datepicker-toggle matSuffix [for]="picker1">
+              </mat-datepicker-toggle>
+              <mat-datepicker #picker1></mat-datepicker>
+            </mat-form-field>
+            <br />
+            <br />
+            <button mat-raised-button color="warn" matStepperPrevious>Back</button>
+            <span> | </span>
+            <button [disabled]="diagnosisDate===undefined" mat-raised-button matStepperNext color="primary" (click)="clickDateOfDiagnosis()">
+              Next
+            </button>
+          </form>
+        </mat-step>
+
+        <mat-step [stepControl]="formGroup" *ngIf="newDetails.diagnosed === 'yesDiagnosed'">
+          <form [formGroup]="formGroup">
+            <ng-template matStepLabel>Step</ng-template>
+            <br />
+            <br />
+            <p>Do you currently have any symptoms related to Covid?</p>
+            <mat-radio-group formControlName="symptoms" [(ngModel)]="newDetails.symptoms">
+              <mat-radio-button value="yesSymptoms">Yes</mat-radio-button>
+              <mat-radio-button value="noSymptoms">No</mat-radio-button>
+            </mat-radio-group>
+            <br />
+            <br />
+            <button mat-raised-button color="warn" matStepperPrevious>Back</button>
+            <span> | </span>
+            <button [disabled] = "newDetails.symptoms === undefined" mat-raised-button matStepperNext color="primary" (click)="clickSymptoms()">
+              Next
+            </button>
+          </form>
+        </mat-step>
+
+        <mat-step [stepControl]="formGroup" *ngIf="newDetails.diagnosed === 'yesDiagnosed' && newDetails.symptoms === 'noSymptoms'">
+          <form [formGroup]="formGroup">
+            <ng-template matStepLabel>Step</ng-template>
+            <br />
+            <br />
+            <p>Have you tested negative for Covid?</p>
+            <mat-radio-group formControlName="testedNegative" [(ngModel)]="newDetails.testedNegative">
+              <mat-radio-button [value]="true">Yes</mat-radio-button>
+              <mat-radio-button [value]="false">No</mat-radio-button>
+            </mat-radio-group>
+            <br />
+            <br />
+            <button mat-raised-button color="warn" matStepperPrevious>Back</button>
+            <span> | </span>
+            <button [disabled] = "newDetails.testedNegative === undefined" mat-raised-button matStepperNext color="primary" (click)="clickTestedNegative()">
+              Next
+            </button>
+          </form>
+        </mat-step>
+
+        <mat-step
+          [stepControl]="formGroup"
+          *ngIf="newDetails.diagnosed === 'yesDiagnosed' && newDetails.testedNegative"
+        >
+          <form [formGroup]="formGroup">
+            <ng-template matStepLabel>Step</ng-template>
+            <br />
+            <br />
+            <p>When did you test negative for Covid?</p>
+            <mat-form-field>
+              <mat-label>Choose a date</mat-label>
+              <input
+                matInput
+                [matDatepicker]="picker2"
+                formControlName="dateNegative"
+                [(ngModel)]="negativeDate"
+              />
+              <mat-datepicker-toggle matSuffix [for]="picker2">
+              </mat-datepicker-toggle>
+              <mat-datepicker #picker2></mat-datepicker>
+            </mat-form-field>
+            <br />
+            <br />
+            <button mat-raised-button color="warn" matStepperPrevious>Back</button>
+            <span> | </span>
+            <button [disabled] = "negativeDate === undefined" mat-raised-button matStepperNext color="primary" (click)="clickDateNegative()">
+              Next
+            </button>
+          </form>
+        </mat-step>
+
+        <mat-step  [stepControl] = "formGroup" *ngIf="newDetails.diagnosed === 'yesDiagnosed' && newDetails.testedNegative">
+          <form [formGroup]="formGroup">
+            <ng-template matStepLabel>Step</ng-template>
+            <br>
+          <p>Please upload your negative report.</p>
+          <br>
+          <input type="file" (change) = "upload($event)" accept="*.pdf" id="">
+          <br>
+          <br>
+          <button mat-raised-button [disabled] = "!uploadValid" (click) = "uploadReport()">Upload</button>
+          <br>
+          <div *ngIf="uploadSuccess">
+            <p style="color: lawngreen;">File Uploaded Successfully!!</p>
+          </div>
+          <br>
+          <button mat-raised-button color="warn" matStepperPrevious>Back</button>
+            <span> | </span>
+          <button [disabled] = "!uploadSuccess" mat-raised-button matStepperNext color="primary">
+            Next
+          </button>
+          </form>
+        </mat-step>
+
+        <mat-step
+          [stepControl]="formGroup"
+          *ngIf="newDetails.diagnosed === 'yesDiagnosed' && newDetails.testedNegative"
+        >
+          <form [formGroup]="formGroup">
+            <ng-template matStepLabel>Step</ng-template>
+            <br />
+            <br />
+            <p>Is any of your family member currently Covid Positive?</p>
+            <mat-radio-group formControlName="positiveFamily" [(ngModel)]="newDetails.positiveFamily">
+              <mat-radio-button [value]="true">Yes</mat-radio-button>
+              <mat-radio-button [value]="false">No</mat-radio-button>
+            </mat-radio-group>
+            <br />
+            <br />
+            <button mat-raised-button color="warn" matStepperPrevious>Back</button>
+            <span> | </span>
+            <button [disabled] = "newDetails.positiveFamily === undefined" mat-raised-button matStepperNext color="primary" (click)="clickPositiveFamily()">
+              Next
+            </button>
+          </form>
+        </mat-step>
+
+        <mat-step [stepControl]="formGroup" *ngIf="newDetails.diagnosed === 'yesDiagnosed'">
+          <form [formGroup]="formGroup">
+            <ng-template matStepLabel>Step</ng-template>
+            <br />
+            <br />
+            <p>Where are you currently working from?</p>
+            <mat-form-field appearance="outline">
+              <input
+                matInput
+                placeholder="City, State"
+                type="text"
+                formControlName="location"
+                [(ngModel)]="newDetails.location"
+              />
+              <br />
+            </mat-form-field>
+            <br />
+            <button mat-raised-button color="warn" matStepperPrevious>Back</button>
+            <span> | </span>
+            <button [disabled] = "newDetails.location === undefined" mat-raised-button matStepperNext color="primary" (click)="clickLocation()">
+              Next
+            </button>
+          </form>
+        </mat-step>
+
+        <mat-step>
+          <ng-template matStepLabel>Done</ng-template>
+          <br />
+          <br />
+          <div>
+            <div *ngIf="newDetails.testedNegative === true && newDetails.diagnosed === 'yesDiagnosed'">
+              <p>Once you are eligible, you have to adhere to the following guidelines. Please make sure you read them carefully.</p>
+              <pdf-viewer [src] = "pdfSrc" [render-text] = "true"></pdf-viewer>
+            </div>
+            <br />
+            <br />
+            <div>           
+          <button mat-raised-button (click)="clickSubmit()">Submit</button>
+          <span> | </span>
+              <button mat-raised-button (click) = "stepper.reset()" color="warn">Cancel</button>
+            </div>
+          </div>
+          
+        </mat-step>
+      </mat-horizontal-stepper>
+
+      <div *ngIf="newDetails.diagnosed === 'noDiagnosed' && formSubmitted">
+        <p>Please fill out the vaccination form.</p>
+      </div>
+
+      <div *ngIf="formSubmitted">
+        <p>Submitted!</p>
+        <br />
+        <br />
+        <button mat-raised-button (click)="clickEdit()">Edit Response</button>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

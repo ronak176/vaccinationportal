@@ -1,0 +1,50 @@
+.sidenav-container {
+  height: 100%;
+}
+
+.sidenav {
+  width: 200px;
+}
+
+.sidenav .mat-toolbar {
+  background: inherit;
+}
+
+.mat-toolbar.mat-primary {
+  background-color: #222831;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.displayName {
+  font-size: 15px;
+}
+
+.mat-menu-item {
+  color: black;
+}
+
+.mat-list-base .mat-list-item {
+  color: #eeeeee;
+}
+
+.menuHeader {
+  color: #00adb5;
+}
+
+.notification-list-item{
+  color: black !important;
+}
+
+::ng-deep.mat-menu-panel {
+  max-width: none !important;
+}
+
+.notification-icons{
+  margin-right: 5px;
+}
+
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none !important;
+}   

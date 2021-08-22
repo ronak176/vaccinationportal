@@ -41,15 +41,24 @@
     <mat-sidenav-content>
       <mat-toolbar color="primary">
         <mat-toolbar-row>
-          <button mat-icon-button [routerLink]="['/employee/homepage']" routerLinkActive="router-link-active" >
-          <mat-icon>home</mat-icon>
-          </button>
+          <div fxLayout = "row" fxLayoutAlign="center center">
+            <div>
+              <button mat-icon-button [routerLink]="['/employee/homepage']" routerLinkActive="router-link-active" >
+                <mat-icon>home</mat-icon>
+                </button>
+            </div>
+            <div>
+              <span style="font-size: medium;">Employee Portal</span>
+            </div>
+          </div>
+          
+          
           <!-- <button mat-icon-button (click)="drawer.toggle()">
             <mat-icon>menu</mat-icon>
           </button> -->
   
           <div fxFlex fxLayout fxLayoutAlign="flex-end center">
-            <span *ngIf="(isHandset$ | async) === false" class="displayName"
+            <span *ngIf="(isHandset$ | async) === false" class="displayName" style="font-size: medium;"
               >{{currentUser?.name }}</span
             >
   

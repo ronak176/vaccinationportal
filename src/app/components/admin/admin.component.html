@@ -41,9 +41,18 @@
     <mat-sidenav-content>
       <mat-toolbar color="primary">
         <mat-toolbar-row>
-          <button mat-icon-button [routerLink]="['/admin/dashboard']" routerLinkActive="router-link-active" >
-            <mat-icon>home</mat-icon>
-            </button>
+          <div fxLayout="row" fxLayoutAlign="center center">
+            <div>
+              <button mat-icon-button [routerLink]="['/admin/dashboard']" routerLinkActive="router-link-active" >
+                <mat-icon>home</mat-icon>
+                </button>
+            </div>
+            <div>
+              <span style="font-size: medium;">Admin Portal</span>
+              
+            </div>
+          </div>
+          
           <!-- <button mat-icon-button (click)="drawer.toggle()">
             <mat-icon>menu</mat-icon>
           </button> -->

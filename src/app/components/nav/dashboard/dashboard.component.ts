@@ -66,7 +66,6 @@ cardLayout = this.breakpointObserver.observe(Breakpoints.Handset).pipe(
 
     this.service.getEmployees().subscribe(data => {
       this.list = data;
-      // console.log(this.list);
       this.list.forEach(element => {
         var answer : string
         answer = this.getEligibleIn(element)
@@ -122,7 +121,6 @@ cardLayout = this.breakpointObserver.observe(Breakpoints.Handset).pipe(
     let answer = ""
     let diagnosed = ""
 
-    // console.log(answer)
 
     //department
     if(this.departmentFilter === "1"){
@@ -214,7 +212,6 @@ cardLayout = this.breakpointObserver.observe(Breakpoints.Handset).pipe(
         }
       }
     }
-    // console.log(this.eligibileCount)
     // this.afs.doc(`employees/${employee.name}`)?.update({eligibilty: this.eligibilty})
   }
 

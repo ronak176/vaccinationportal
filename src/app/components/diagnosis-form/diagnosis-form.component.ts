@@ -68,7 +68,7 @@ export class DiagnosisFormComponent implements OnInit {
             .subscribe((res) => {
               this.currentUserDetails = res;
               let parsed = moment(this.currentUserDetails.dob, "DD/MM/YYYY")
-              //console.log(moment().diff(parsed, 'years'))
+              
             });
         });
     });
@@ -77,12 +77,12 @@ export class DiagnosisFormComponent implements OnInit {
 
   clickLocation(){
     this.newDetails.location = this.formGroup.controls['location'].value
-    //console.log(this.newDetails.location)
+    
   }
 
   clickDiagnosed() {
     this.newDetails.diagnosed = this.formGroup.controls['diagnosed'].value;
-    //console.log(this.newDetails.diagnosed);
+    
   }
 
   clickDateOfDiagnosis() {
@@ -91,31 +91,26 @@ export class DiagnosisFormComponent implements OnInit {
     );
     const formattedDate = moment(momentDate).format('DD/MM/YYYY');
     this.newDetails.dateOfDiagnosis = formattedDate;
-    //console.log(this.newDetails.dateOfDiagnosis);
   }
 
   clickSymptoms() {
     this.newDetails.symptoms = this.formGroup.controls['symptoms'].value;
-    //console.log(this.newDetails.symptoms);
   }
 
   clickTestedNegative() {
     this.newDetails.testedNegative =
       this.formGroup.controls['testedNegative'].value;
-    //console.log(this.newDetails.testedNegative);
   }
 
   clickDateNegative() {
     const momentDate = new Date(this.formGroup.controls['dateNegative'].value);
     const formattedDate = moment(momentDate).format('DD/MM/YYYY');
     this.newDetails.dateNegative = formattedDate;
-    //console.log(this.newDetails.dateNegative);
   }
 
   clickPositiveFamily() {
     this.newDetails.positiveFamily =
       this.formGroup.controls['positiveFamily'].value
-    //console.log(this.newDetails.positiveFamily)
   }
 
   clickSubmit() {

@@ -82,6 +82,6 @@ export class EmployeeService {
 
   selectEmployee(item : Employee){
     this.selectedEmployee = item; 
-    console.log(this.selectedEmployee);
+    // console.log(this.selectedEmployee);
   }
 }

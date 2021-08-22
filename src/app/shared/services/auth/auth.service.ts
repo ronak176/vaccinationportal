@@ -43,7 +43,7 @@ export class AuthService {
           if(res['admin'] === true){
             // this.router.navigate(['/nav/dashboard']);
             this.router.navigate(['/admin/dashboard'])
-            console.log(localStorage.getItem('user'))
+            // console.log(localStorage.getItem('user'))
           }else{
             // this.router.navigate(['/nav']);
             this.router.navigate(['/employee/homepage'])
@@ -69,7 +69,7 @@ export class AuthService {
   async SignIn(email, password) {
     await this.afAuth.signInWithEmailAndPassword(email, password)
       .then((result) => {
-          console.log(result.user);
+          // console.log(result.user);
           this.afs.doc(`usersData/${result.user.uid}`).valueChanges().subscribe(res => {
             this.userDetails = res;
             if(res['admin'] === true){

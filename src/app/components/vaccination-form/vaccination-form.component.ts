@@ -73,7 +73,6 @@ export class VaccinationFormComponent implements OnInit, AfterViewChecked {
     this.secondDateOriginal = null
     this.afAuth.authState.subscribe((user) => {
       this.currentUserId = user.uid;
-      //console.log(user.uid);
       this.afs
         .doc(`usersData/${user.uid}`)
         .valueChanges()
@@ -106,17 +105,14 @@ export class VaccinationFormComponent implements OnInit, AfterViewChecked {
     this.newDetails.location = currentUserDetails.location;
     this.newDetails.firstReason = currentUserDetails.firstReason
     this.newDetails.secondReason = currentUserDetails.secondReason
-    //console.log(this.newDetails);
   }
 
   clickLocation(){
     this.newDetails.location = this.firstFormGroup.controls['location'].value
-    //console.log(this.newDetails.location)
   }
 
   clickFirstDose() {
     this.newDetails.firstDose = this.firstFormGroup.controls['firstDose'].value;
-    //console.log(this.newDetails.firstDose);
     if (this.newDetails.firstDose == "yesFirst") {
       this.gotFirstDose = true;
     }
@@ -129,19 +125,16 @@ export class VaccinationFormComponent implements OnInit, AfterViewChecked {
     );
     const formattedDate = moment(momentDate).format('DD/MM/YYYY');
     this.newDetails.firstDate = formattedDate;
-    //console.log(this.newDetails.firstDate);
   }
 
   clickVaccine() {
     this.newDetails.vaccine = this.firstFormGroup.controls['vaccine'].value;
-    //console.log(this.firstFormGroup.controls['vaccine'].value);
   }
 
   clickSecondDose() {
     this.secondDateOriginal = this.firstFormGroup.controls['secondDose'].value
     this.newDetails.secondDose =
       this.firstFormGroup.controls['secondDose'].value;
-    //console.log(this.newDetails.secondDose);
     if (this.newDetails.secondDose == "yesSecond") {
       this.gotSecondDose = true;
     }
@@ -153,7 +146,6 @@ export class VaccinationFormComponent implements OnInit, AfterViewChecked {
     );
     const formattedDate = moment(momentDate).format('DD/MM/YYYY');
     this.newDetails.secondDate = formattedDate;
-    //console.log(this.newDetails.secondDate);
   }
 
   clickSubmit() {
@@ -197,7 +189,6 @@ export class VaccinationFormComponent implements OnInit, AfterViewChecked {
   }
 
   uploadSecondCertificate(){
-    //console.log(this.secondPath)
     this.af.upload(`${'/secondDoseCertificates'}/${this.currentUserDetails.name}`, this.secondPath)
     this.uploadSuccessSecond = true
   }

@@ -80,19 +80,16 @@ export class HomepageComponent implements OnInit {
         this.currentUser = res
         this.firestore.collection('employees').doc(this.currentUser.name).valueChanges().subscribe(res => {
           this.employee = res;
-          console.log(this.employee)
         })
       })
     })
 
     this.getStats.getCovidNews().subscribe((data) => {
       this.news = data.articles
-      // console.log(this.news)
     })
 
     this.getStats.getCovidNews2().subscribe((data) => {
       this.news2 = data.articles
-      console.log(this.news2)
     })
 
     this.getStats.getCovidStats().subscribe((data) => {
